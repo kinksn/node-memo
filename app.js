@@ -5,9 +5,27 @@ const app = express();
 //viewエンジンをejsであることを設定
 app.set("view engine", "ejs");
 
-app.get('/', function(req, res){
-    const message = "Hello World!";
-    res.render("index", {message: message});
+
+
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'list_app'
+});
+
+connection.connect( err => {
+    if (err) throw err;
+    console.log('Connected');
+});
+
+app.get('/', (req, res) => {
+    connection.query(
+        'SELECT * FROM users',
+        (error, results) => {
+            res.render("index", {items: results[0]})
+        }
+    )
 });
 
 app.listen(3000, () => console.log('app listening on port 3000!'));
