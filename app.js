@@ -21,7 +21,7 @@ connection.connect( err => {
 
 app.get('/', (req, res) => {
     connection.query(
-        'SELECT * FROM users',
+        'SELECT * FROM items',
         (error, results) => {
             res.render("index", {items: results[0]})
         }
